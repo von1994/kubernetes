@@ -53,6 +53,8 @@ func defaultPredicates() sets.String {
 		predicates.CheckNodeConditionPred,
 		predicates.PodToleratesNodeTaintsPred,
 		predicates.CheckVolumeBindingPred,
+		predicates.CheckLocalVolumePred,
+		predicates.MaxStableModelCountPred,
 	)
 }
 

@@ -58,7 +58,8 @@ kube::version::get_version_vars() {
       if git_status=$("${git[@]}" status --porcelain 2>/dev/null) && [[ -z ${git_status} ]]; then
         KUBE_GIT_TREE_STATE="clean"
       else
-        KUBE_GIT_TREE_STATE="dirty"
+        # avoid display dirty,replace dirty to alcor and will not display due to version validation.
+        KUBE_GIT_TREE_STATE="alcor"
       fi
     fi
 

@@ -50,6 +50,9 @@ import (
 )
 
 const (
+	MaxStableModelCountPred = "MaxStableModelCount"
+	CheckLocalVolumePred = "CheckLocalVolumePressure"
+
 	// MatchInterPodAffinityPred defines the name of predicate MatchInterPodAffinity.
 	MatchInterPodAffinityPred = "MatchInterPodAffinity"
 	// CheckVolumeBindingPred defines the name of predicate CheckVolumeBinding.
@@ -144,9 +147,11 @@ var (
 		GeneralPred, HostNamePred, PodFitsHostPortsPred,
 		MatchNodeSelectorPred, PodFitsResourcesPred, NoDiskConflictPred,
 		PodToleratesNodeTaintsPred, PodToleratesNodeNoExecuteTaintsPred, CheckNodeLabelPresencePred,
+		MaxStableModelCountPred,
 		CheckServiceAffinityPred, MaxEBSVolumeCountPred, MaxGCEPDVolumeCountPred, MaxCSIVolumeCountPred,
 		MaxAzureDiskVolumeCountPred, MaxCinderVolumeCountPred, CheckVolumeBindingPred, NoVolumeZoneConflictPred,
-		CheckNodeMemoryPressurePred, CheckNodePIDPressurePred, CheckNodeDiskPressurePred, MatchInterPodAffinityPred}
+		CheckNodeMemoryPressurePred, CheckNodePIDPressurePred, CheckNodeDiskPressurePred, MatchInterPodAffinityPred,
+		CheckLocalVolumePred}
 )
 
 // FitPredicate is a function that indicates if a pod fits into an existing node.
