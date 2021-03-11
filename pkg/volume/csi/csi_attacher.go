@@ -394,6 +394,21 @@ func (c *csiAttacher) Detach(volumeName string, nodeName types.NodeName) error {
 		attachID = getAttachmentName(volID, driverName, string(nodeName))
 	}
 
+	va, err := c.k8s.StorageV1().VolumeAttachments().Get(context.TODO(), attachID, metav1.GetOptions{})
+	if err != nil {
+		if apierrors.IsNotFound(err) {
+			// object deleted or never existed, done
+			klog.V(4).Info(log("VolumeAttachment object [%v] for volume [%v] not found, object deleted", attachID, volID))
+			return nil
+		}
+		return errors.New(log("detacher.Detach failed to get(check finalizer for stable-model) VolumeAttachment [%s]: %v", attachID, err))
+	}
+	for _, finalizer := range va.Finalizers {
+		if finalizer == "volumeattachment/stablemodel-alcor-io" {
+			klog.V(4).Infof("VolumeAttachment object [%v] for volume [%v] is belong to stable-model and fixed on node, disable Detach", attachID, volID)
+			return nil
+		}
+	}
 	if err := c.k8s.StorageV1().VolumeAttachments().Delete(context.TODO(), attachID, metav1.DeleteOptions{}); err != nil {
 		if apierrors.IsNotFound(err) {
 			// object deleted or never existed, done
@@ -404,7 +419,7 @@ func (c *csiAttacher) Detach(volumeName string, nodeName types.NodeName) error {
 	}
 
 	klog.V(4).Info(log("detacher deleted ok VolumeAttachment.ID=%s", attachID))
-	err := c.waitForVolumeDetachment(volID, attachID, csiTimeout)
+	err = c.waitForVolumeDetachment(volID, attachID, csiTimeout)
 	return err
 }
 
