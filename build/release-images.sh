@@ -25,7 +25,7 @@ KUBE_ROOT=$(dirname "${BASH_SOURCE[0]}")/..
 source "${KUBE_ROOT}/build/common.sh"
 source "${KUBE_ROOT}/build/lib/release.sh"
 
-CMD_TARGETS=(cmd/kube-controller-manager)
+CMD_TARGETS="cmd/kube-controller-manager"
 # CMD_TARGETS="${KUBE_SERVER_IMAGE_TARGETS[*]}"
 if [[ "${KUBE_BUILD_CONFORMANCE}" =~ [yY] ]]; then
     CMD_TARGETS="${CMD_TARGETS} ${KUBE_CONFORMANCE_IMAGE_TARGETS[*]}"
